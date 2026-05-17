@@ -6,10 +6,12 @@
     <title>Orbix - Welcome To The Future</title>
 
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://futurasann.github.io/orbix/">
     <meta property="og:title" content="Orbix - Welcome To The Future">
     <meta property="og:description" content="Bergabunglah bersama Orbix menuju masa depan teknologi yang lebih cerah.">
     
-    <meta property="og:image" content="https://files.catbox.moe/75ufj8.png"> 
+    <meta property="og:image" content="https://futurasann.github.io/orbix/orbixx.png"> 
+    <meta property="og:image:secure_url" content="https://futurasann.github.io/orbix/orbixx.png"> 
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="675">
@@ -23,7 +25,7 @@
         }
 
         body {
-            /* Menggunakan foto Catbox kamu untuk background utama */
+            /* Background menggunakan foto dari Catbox milikmu */
             background-image: url('https://files.catbox.moe/1r3u1b.png');
             background-size: cover;
             background-position: center;
@@ -37,7 +39,7 @@
             align-items: center;
         }
 
-        /* Overlay gelap transparan agar teks & tombol tetap kontras */
+        /* Overlay transparan agar tombol Let's Join terlihat kontras */
         .overlay {
             position: absolute;
             top: 0;
@@ -59,16 +61,16 @@
             animation: fadeIn 1.5s ease-out;
         }
 
-        /* Foto teks judul Orbix */
+        /* Gambar teks judul Orbix Welcome */
         .brand-image {
             max-width: 800px;
-            width: 100%; /* Diubah ke 100% agar tidak meluber di layar medium */
+            width: 100%;
             height: auto;
             margin-bottom: 40px;
             filter: drop-shadow(0px 0px 50px rgba(255, 255, 255, 0.15));
         }
 
-        /* Tombol Let's Join dengan Efek Glow */
+        /* Tombol Let's Join Ber-efek Glow */
         .btn-join {
             font-size: 1.2rem;
             font-weight: 600;
@@ -100,7 +102,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsif Mobile */
+        /* Responsif untuk HP */
         @media (max-width: 768px) {
             .brand-image { max-width: 85%; margin-bottom: 30px; }
             .btn-join { font-size: 1rem; padding: 12px 35px; }
