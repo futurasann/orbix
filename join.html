@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbix - Join The Future</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --surf: rgba(13, 13, 13, 0.65); 
+            --bord: rgba(255, 255, 255, 0.1); 
+            --dim: #999; 
+            --accent: #ffffff; 
+        }
+        
+        * { box-sizing: border-box; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        body { 
+            /* BACKGROUND MATS PERSIS SEPERTI INDEX.HTML */
+            background-image: url('https://files.catbox.moe/1r3u1b.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white; 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            overflow-x: hidden; 
+            width: 100%; 
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Overlay Gelap Transparan */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1;
+        }
+
+        /* Wrapper Konten Full UI Berada di Tengah Layar */
+        .wrapper { 
+            position: relative; 
+            z-index: 2; 
+            width: 100%; 
+            max-width: 550px; 
+            margin: 40px auto; 
+            padding: 0 20px;
+        }
+        
+        #main-ui { display: block; }
+        .stagger > * { opacity: 0; transform: translateY(25px); animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+
+        h2 { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; text-align: center; }
+        .sub-head { color: var(--dim); font-size: 11px; text-align: center; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px; line-height: 1.5; }
+
+        /* Desain Kotak Formulir Semi Transparan (Glassmorphism) */
+        section { 
+            margin-bottom: 30px; 
+            border: 1px solid var(--bord); 
+            background: var(--surf);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 30px 25px; 
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        section h3 { font-family: 'Orbitron', sans-serif; font-size: 11px; text-transform: uppercase; color: white; letter-spacing: 2px; margin-bottom: 25px; font-weight: 700; border-bottom: 1px solid var(--bord); padding-bottom: 10px; }
+
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; font-size: 11px; color: var(--dim); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        
+        input, textarea {
+            width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--bord); 
+            border-radius: 12px; padding: 15px; color: white; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;
+        }
+        input:focus, textarea:focus { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+
+        .checkbox-container { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; margin-bottom: 15px; padding: 0 5px; }
+        .checkbox-container input { display: none; }
+        .checkmark {
+            min-width: 18px; height: 18px; border: 1px solid var(--bord); border-radius: 4px;
+            background: rgba(255,255,255,0.05); position: relative; margin-top: 2px;
+        }
+        .checkbox-container input:checked ~ .checkmark { background: white; border-color: white; }
+        .checkbox-container input:checked ~ .checkmark:after {
+            content: ""; position: absolute; left: 6px; top: 2px; width: 4px; height: 8px;
+            border: solid black; border-width: 0 2px 2px 0; transform: rotate(45deg);
+        }
+        .checkbox-text { font-size: 12px; color: var(--dim); line-height: 1.5; }
+
+        .btn-apply {
+            width: 100%; background: white; color: black; padding: 18px; border: none; border-radius: 100px;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; font-size: 12px;
+            display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+        }
+        .btn-apply:hover { transform: scale(1.02); background: #f0f0f0; box-shadow: 0 8px 25px rgba(255,255,255,0.2); }
+
+        /* Tombol cancel mandiri */
+        .btn-cancel {
+            display: block; text-align: center; margin-top: 20px; color: var(--dim); 
+            text-decoration: none; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-cancel:hover { color: white; }
+
+        #success-ui { display: none; text-align: center; padding: 60px 20px; flex-direction: column; align-items: center; justify-content: center; }
+        .check-icon {
+            width: 80px; height: 80px; background: var(--accent); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 30px;
+        }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blurOut { from { opacity: 1; filter: blur(0); } to { opacity: 0; filter: blur(10px); transform: translateY(-20px); } }
+        @keyframes blurIn { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
+        .loader { width: 16px; height: 16px; border: 2px solid #000; border-bottom-color: transparent; border-radius: 50%; animation: rotation 1s linear infinite; }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="wrapper">
+        <div id="main-ui" class="stagger">
+            <h2>JOIN THE COLLECTIVE.</h2>
+            <p class="sub-head">Please complete the form below to submit your registration and become part of the ORBIX system.</p>
+
+            <form id="joinForm">
+                <section>
+                    <h3>Identity & Contact</h3>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <input type="text" id="country" name="country" placeholder="Enter your country" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp Number</label>
+                        <input type="tel" id="wa" name="whatsapp" placeholder="Enter WhatsApp number (with country code)" required>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Interests & Preference</h3>
+                    <div class="form-group">
+                        <label>Interests / Hobbies</label>
+                        <input type="text" id="hobbies" name="hobbies" placeholder="e.g. Coding, Gaming, Design, Music" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Favorite tech or gaming brand?</label>
+                        <input type="text" id="brand" name="favorite_brand" placeholder="e.g. ASUS ROG, Apple, Sony, Razer" required>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Motivation</h3>
+                    <div class="form-group">
+                        <label>Why do you want to join ORBIX?</label>
+                        <textarea id="why" name="why_join" rows="3" placeholder="Write your reason for joining ORBIX here…" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Short introduction about yourself 🚀</label>
+                        <textarea id="intro" name="introduction" rows="4" placeholder="Tell us briefly about who you are…" required></textarea>
+                    </div>
+                </section>
+
+                <div style="padding: 0 5px;">
+                    <label class="checkbox-container">
+                        <input type="checkbox" required>
+                        <span class="checkmark"></span>
+                        <span class="checkbox-text">I confirm that all provided information is accurate.</span>
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" required>
+                        <span class="checkmark"></span>
+                        <span class="checkbox-text">I agree to follow the collective's guidelines and values.</span>
+                    </label>
+
+                    <button type="submit" class="btn-apply" id="submitBtn">
+                        <span id="btnText">Submit Application</span>
+                    </button>
+                    
+                    <a href="index.html" class="btn-cancel">Cancel & Back</a>
+                </div>
+            </form>
+        </div>
+
+        <div id="success-ui">
+            <div class="check-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="width:40px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h2>RECEIVED.</h2>
+            <p style="color:var(--dim); font-size:14px; margin-bottom:40px; line-height: 1.6;">Thank you for submitting your registration. Your application is currently under review. If approved, you will be contacted via WhatsApp for further information.</p>
+            <a href="index.html" style="color:white; text-decoration:none; font-size:11px; font-weight:800; border:1px solid var(--bord); padding:18px 45px; border-radius:100px; text-transform: uppercase; letter-spacing: 1px; background: rgba(255,255,255,0.03);">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyK_oAzH2-XoxRrBe0tVLrJ5CbPX7Ii-OipeSNbOEFZ8teoD8ox0Yf4dMBXq8vBSLkv2Q/exec';
+        const form = document.getElementById('joinForm');
+        const btn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const mainUI = document.getElementById('main-ui');
+        const successUI = document.getElementById('success-ui');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            btn.disabled = true;
+            btnText.innerHTML = '<span class="loader"></span> PROCESSING';
+
+            const payload = {
+                action: 'register',
+                name: document.getElementById('name').value,
+                country: document.getElementById('country').value,
+                whatsapp: document.getElementById('wa').value,
+                hobbies: document.getElementById('hobbies').value,
+                why_join: document.getElementById('why').value,
+                favorite_brand: document.getElementById('brand').value,
+                introduction: document.getElementById('intro').value
+            };
+
+            fetch(scriptURL, { 
+                method: 'POST', 
+                mode: 'no-cors',
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                mainUI.style.animation = 'blurOut 0.6s ease-in forwards';
+                setTimeout(() => {
+                    mainUI.style.display = 'none';
+                    successUI.style.display = 'flex';
+                    successUI.style.animation = 'blurIn 0.8s ease-out forwards';
+                }, 600);
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                btn.disabled = false;
+                btnText.innerHTML = 'RETRY';
+            });
+        });
+    </script>
+</body>
+</html>
